@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+>
+<style>
+    .error{
+        color:red;
+    }
+</style>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script th:src="@{/validate/js/jquery-3.1.1.js}"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+<script th:src="@{/validate/js/additional-methods.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录</title>
+</head>
+<body>
+<div class="container" style="text-align:center;margin-top:50px;">
+    <div class="row col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form id="login" th:action="@{/home}" method="post">
+                    <div class="input-group">
+                        <span class="input-group-addon">username</span>
+                        <input id="username" type="text" name="username" class="form-control" placeholder="用户名" required>
+                    </div>
+                    <!--<div><span th:if="${#fields.hasErrors('username')}"  style="color:red;"></span></div>-->
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">password</span>
+                        <input id="password" type="password" name="password" class="form-control" placeholder="密码">
+                    </div>
+                    <!--<div><span th:if="${#fields.hasErrors('password')}" style="color:red;"></span></div>-->
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">验证码</span>
+                        <input type="text" id="code" name="code" class="form-control" style="width:250px;"/>
+                        <img id="imgObj" alt="验证码" src="/seckill/validateCode" class="img-responsive" onclick="changeImg()"/>
+                        <!--<div><span th:text="${session.getAttribute('code')}" style="color:red;"></span></div>-->
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary register-btn">登录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#login").validate({
+        submitHandler: function(form) {
+            form.submit();
+        },
+    });
+    // 刷新图片
+    function changeImg() {
+        var imgSrc = $("#imgObj");
+        var src = imgSrc.attr("src");
+        imgSrc.attr("src", changeUrl(src));
+    }
+    //为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
+    function changeUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        var index = url.indexOf("?",url);
+        if (index > 0) {
+            url = url.substring(index, url.indexOf(url, "?"));
+        }
+        if ((url.indexOf("&") >= 0)) {
+            url = url + "×tamp=" + timestamp;
+        } else {
+            url = url + "?timestamp=" + timestamp;
+        }
+        return url;
+    }
+
+</script>
+</body>
+</html>

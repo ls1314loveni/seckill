@@ -5,9 +5,9 @@ import com.dayup.seckill.entity.User;
 public interface UserServices {
 
     // 注册
-    User regist(User user);
+    int regist(User user);
 
     // 查找用户
-    User findByUsernameAndPassword(String username, String password);
+    User findUser(User user);
 
 }

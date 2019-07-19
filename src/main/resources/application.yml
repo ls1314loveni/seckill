@@ -1,0 +1,67 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.105.163.87:6608/seckill?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+    username: root
+    password: zh1qaz!QAZ
+  devtools:
+    restart:
+      enabled: true
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    mode: LEGACYHTML5
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  redis:
+    database: 0
+    host: 192.168.56.101
+    port: 6379
+    pool:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+#    prefix: /static
+#    suffix: .html
+
+
+server:
+  port: 8080
+  servlet:
+    context-path: /seckill
+
+mybatis-plus:
+  type-aliases-package: com.dayup.seckill
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    auto-mapping-behavior: full
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    banner: true
+    db-config:
+      db-type: mysql
+      id-type: auto
+      field-strategy: not_empty
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+
+#logging:
+logging:
+  level:
+    root: warn
+    com.dayup.seckill.dao: trace
+  pattern:
+    console: '%p%m%n'
+
+#  config: classpath:config/slf4j.xml
